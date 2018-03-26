@@ -35,8 +35,6 @@ function buscarArchivos($service)
 }
 
 //Descargar archivos
-
-//Buscar archivos
 function descargarArchivos($service)
 {
     $fileId = '0BxCE9YuyKsNoWlBWTk9veFpJcGs';
@@ -44,9 +42,26 @@ function descargarArchivos($service)
     $response = $service->files->get($fileId, array(
     'alt' => 'media' ));
     $content = $response->getBody()->getContents();
-    var_dump($response->getHeader('Content-Type'));
- //   file_put_contents("hola1.jpg", $content);
+    
+   file_put_contents("hola1.jpg",   $content);
+}
+
+//Buscar archivos
+function subirArchivos($service)
+{
+
+    $fileMetadata = new Google_Service_Drive_DriveFile(array(
+    'name' => 'image.jpg'));
+    $content = file_get_contents('files/image.jpg');
+    $file = $driveService->files->create($fileMetadata, array(
+    'data' => $content,
+    'mimeType' => 'image/jpeg',
+    'uploadType' => 'multipart',
+    'fields' => 'id'));
+    printf("File ID: %s\n", $file->id);
 }
 // listarArchivos($service, $optParams);
-//buscarArchivos($service);
-descargarArchivos($service);
+// buscarArchivos($service);
+// descargarArchivos($service);
+// subirArchivos($service);
+
